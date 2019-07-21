@@ -1,0 +1,25 @@
+Changelog Version 2.2.1 gegenüber Version 2.2.0
+
+2018-04-04 webchills
+
+Unnötige Anzeige des Modulnamens auf der Seite checkout_frites_confirmation entfernt
+Eingabe von Aktionskupons sichtbar geschaltet
+Fix für abgebrochene Zahlungen aufgrund von Zeilenumbrüchen in Bestellkommentaren
+
+Änderungen in 
+includes/modules/payment/frites.php
+includes/templates/DEINTEMPLATE/templates/tpl_checkout_frites_payment_default.php
+includes/templates/DEINTEMPLATE/templates/tpl_checkout_frites_confirmation_default.php
+includes/modules/pages/checkout_frites_confirmation/header_php.php
+includes/modules/pages/checkout_frites_payment/header_php.php
+includes/modules/pages/checkout_frites_shipping/header_php.php
+
+Um von 2.2.0 auf 2.2.1 zu aktualisieren:
+
+Module > Zahlungsarten > mit Amazon bezahlen
+Einstellungen notieren
+Dann Modul entfernen
+
+Die 6 in 2.2.1 geänderten Dateien hochladen
+
+Modul neu initialisieren mit den zuvor notierten Einstellungen

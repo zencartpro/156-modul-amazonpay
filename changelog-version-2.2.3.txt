@@ -1,0 +1,61 @@
+Changelog Version 2.2.3 gegenüber Version 2.2.2
+
+2019-05-25 webchills
+
+- Infoseite zur Verwendung in Firefox integriert
+- Prominentere Plazierung auf der Loginseite mit Infotext
+- Durchgehende Übergabe von zwei Nachkommastellen beim Bestellwert zur Vorbereitung auf SCA Compliance
+
+Neue Dateien gegenüber Version 2.2.2:
+-----------------------------------------------------------------------------------------------
+
+\images\firefox-amazon-1.jpg
+\images\firefox-amazon-2.jpg
+\images\firefox-amazon-2-en.jpg
+\images\firefox-amazon-3.jpg
+\images\firefox-amazon-3-en.jpg
+\images\firefox-amazon-4.jpg
+\includes\extra_datafiles\amazon_pay_info_filenames.php
+\includes\languages\english\extra_definitions\amazon_pay_info.php
+\includes\languages\english\html_includes\DEINTEMPLATE\define_amazon_pay_info.php
+\includes\languages\english\html_includes\define_amazon_pay_info.php
+\includes\languages\english\amazon_pay_info.php
+\includes\languages\german\extra_definitions\amazon_pay_info.php
+\includes\languages\german\html_includes\DEINTEMPLATE\define_amazon_pay_info.php
+\includes\languages\german\html_includes\define_amazon_pay_info.php
+\includes\languages\german\amazon_pay_info.php
+\includes\modules\pages\amazon_pay_info\header_php.php
+\includes\templates\DEINTEMPLATE\templates\tpl_amazon_pay_info_default.php
+
+
+Geänderte Dateien gegenüber Version 2.2.2
+-----------------------------------------------------------------------------------------------
+\includes\languages\english\DEINTEMPLATE\login.php
+\includes\languages\german\DEINTEMPLATE\login.php
+\includes\templates\DEINTEMPLATE\templates\tpl_login_default.php
+\includes\languages\english\modules\payment\frites.php
+\includes\languages\german\modules\payment\frites.php
+\includes\modules\payment\frites\frites_functions.php
+\includes\modules\payment\frites\tpl_login_button.php
+\includes\modules\payment\frites.php
+\includes\templates\DEINTEMPLATE\templates\tpl_checkout_frites_payment_default.php
+\includes\templates\DEINTEMPLATE\templates\tpl_checkout_frites_shipping_default.php
+
+
+Nicht mehr enthalten:
+-----------------------------------------------------------------------------------------------
+Da es zu den Voraussetzungen gehört, dass der Shop durchgehend SSL verwendet ist es nicht mehr nötig die includes\modules\pages\shopping_cart\header_php.php zu ändern, diese Datei kann Original 1.5.5f bleiben und wurde aus dem Paket entfernt.
+
+
+
+Um von 2.2.2 auf 2.2.3 zu aktualisieren:
+
+Module > Zahlungsarten > mit Amazon bezahlen
+Einstellungen notieren
+Dann Modul entfernen
+
+Die oben genannten neu enthaltenen Dateien hochladen (DEINTEMPLATE steht für den Namen des im Shop aktiven Templates)
+
+Änderungen in den oben genannten geänderten Dateien vornehmen
+
+Modul neu initialisieren mit den zuvor notierten Einstellungen.

@@ -1,0 +1,4 @@
+<?php
+define('ERROR_NO_PHONE_DEFINED', 'Ihre Adressdaten sind unvollständig, es fehlt die Telefonnummer.<br/>Bitte tragen Sie Ihre Telefonnummer im Feld Telefonnummer ein und clicken dann auf den Button Aktualisieren.');
+define('ERROR_NO_LASTNAME_DEFINED', 'Ihre Adressdaten sind unvollständig, es fehlt der Nachname.<br/>Bitte tragen Sie Ihren Nachnamen im Feld Nachname ein und clicken dann auf den Button Aktualisieren.');
+define('ERROR_NO_STREET_DEFINED', 'Ihre Adressdaten sind unvollständig, es fehlen Straße und Hausnummer.<br/>Bitte clicken Sie bei der Adresse auf Bearbeiten und tragen Sie Straße und Hausnummer im Feld Straße ein. Bestätigen Sie mit dem Button Aktualisieren.');

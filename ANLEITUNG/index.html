@@ -1,0 +1,468 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Login und Bezahlen via Amazon (Amazon Pay) 2.2.4 für Zen Cart 1.5.6 deutsch</title>
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="content-language" content="de">
+<meta name="description" content="Amazon Pay für Zen Cart 1.5.6 deutsch">
+<link rel="stylesheet" type="text/css" href="includes/css/stylesheet.css">  
+<script type="text/javascript" src="includes/jscript/jscript_tabs.js"></script>
+</head>
+<body>
+<div id="wrapper">
+<div id="header">
+<h1>Login und Bezahlen via Amazon (Amazon Pay) 2.2.4 für Zen Cart 1.5.6 deutsch</h1>
+</div>
+
+<div id="slidetabsmenu" style="display: none;">
+<ul>
+  <li> <a onClick="expandcontent('sc1', this)" href="javascript:void(0)"><span>Sinn und Zweck</span></a></li>
+  <li> <a onClick="expandcontent('sc2', this)" href="javascript:void(0)"><span>Installation</span></a></li>
+   <li> <a onClick="expandcontent('sc3', this)" href="javascript:void(0)"><span>Konfiguration</span></a></li>
+   <li> <a onClick="expandcontent('sc4', this)" href="javascript:void(0)"><span>Deinstallation</span></a></li>
+  <li> <a onClick="expandcontent('sc5', this)" href="javascript:void(0)"><span>Download & Support</span></a></li>
+  <li> <a onClick="expandcontent('sc6', this)" href="javascript:void(0)"><span>Unterstützen</span></a></li>
+ </ul>
+</div>
+<br style="clear: both;">
+
+<!--Begin tabcontainer-->
+<div id="tabcontentcontainer">
+
+<!--Begin sc1-->
+<div class="tabcontent" id="sc1" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+
+<h2>Sinn und Zweck dieses Moduls</h2>
+
+ <p>Dieses Modul ermöglicht die Zahlungsart Amazon Pay in Ihrem Zen Cart Shop.<br>
+   <br>
+   <strong>Dieses Modul setzt die Lieferung physischer Waren mit einer Versandadresse voraus. Für einen  Downloadshop digitaler Artikel ist es NICHT geeignet! Es wird deaktiviert, wenn virtuelle Artikel im Warenkorb sind.</strong><br>
+   <br/>
+   <strong>Dieses Modul ist noch nicht für die ab 14. September 2019 zwingende Strong Customer Authentication (SCA) ausgelegt. Eine neue Version, die das unterstützt, wird rechtzeitig vor Einführung der SCA erscheinen.</strong><br>
+   <br>
+   Kunden können direkt mit ihrem Amazon Account zahlen und alle dort hinterlegten Zahlungsarten zu verwenden.<br/>
+   Wählt der Kunde Bezahlen via Amazon kann er sich mit seinem Amazon Konto (Amazon Emailadresse und Amazon Passwort) einloggen, im Shop wird dann ein enstprechendes Kundenkonto automatisch angelegt, falls die Emailadresse noch nicht vorhanden ist.<br/>
+   Sollte die Emailadresse bereits vorhanden sein, wird das bestehende Kundenkonto verknüpft.<br>
+   <br/>
+   Der Kunde muss im Shop keinerlei Kundendaten angeben, er wählt die gewünschte Zahlungsart und Lieferadresse in einem eigenen Checkout Prozess direkt aus seinem Amazon Adressbuch aus und genau diese Daten werden dann für die Bestellung als Rechnungs- und Lieferadresse verwendet.<br>
+   <br/>
+   Es werden keinerlei Details über die bestellten Artikel an Amazon übermittelt, hier geht es rein um die Bezahlung. Es werden keine Informationen über den Warenkorb-Inhalt an Amazon übermittelt. Lediglich der Gesamtwert des Warenkorbs wird zur Zahlungsabwicklung übermittelt.<br>
+   <br/>
+   Amazon Pay steht derzeit (Stand März 2018) nur für Shopinhaber mit Firmensitz in Deutschland, Österreich, Belgien, Dänemark, Frankreich, Großbritannien, Italien, Irland, Luxemburg, Niederlande, Portugal, Schweden, Spanien, Ungarn oder Zypern  zur Verfügung.</p>
+ <p>   Das Modul kann zunächst mit einem Sandbox Account vollständig ohne echte Transaktionen getestet werden.
+   
+   <br>
+   <br>
+   Voraussetzungen:
+ </p>
+ <ul>
+    <li>Zen Cart 1.5.6 deutsch</li>
+       <li>Shop verwendet durchgehend SSL</li>
+       <li>Bundesland ist im Shop NICHT aktiv (Konfiguration &gt; Kundendetails)</li>
+       <li>Firma des Shopinhabers hat Sitz in Deutschland, Österreich, Belgien, Dänemark, Frankreich, Großbritannien, Italien, Irland, Luxemburg, Niederlande, Portugal, Schweden, Spanien, Ungarn oder Zypern (Stand März 2018)</li>
+       <li>Amazon Seller Account</li>
+       <li>Amazon Payments Konto</li>
+       <li>Login mit Amazon ID und andere Kennungen erstellt<br>
+(siehe beiliegendes pdf <a href="Wie-bekomme-und-nutze-ich-meine-Login-mit-AmazonClient-ID.pdf">Wie-bekomme-und-nutze-ich-meine-Login-mit-AmazonClient-ID.pdf</a>) </li>
+  </ul>
+<h3>Copyright,  Lizenz, Changelog</h3>
+<p>
+Übersetzung/Anpassung/Überarbeitung des Moduls Amazon Pay 1.0 von webiprog für die deutsche Zen Cart Version 1.5.6<br/>
+ Copyright Originalmodul 2014-2017:<br>
+<a href="http://www.webiprog.de" target="_blank">www.webiprog.de</a>
+<p>Version 2.2.4<br>
+2019-07-20<br>
+webchills
+<ul>
+  <li>Anpassungen für Zen Cart 1.5.6 und PHP 7.3</li>
+  <li>Anleitung aktualisiert</li>
+  <li>Version 2.2.4 ist ausschließlich für Zen Cart 1.5.6 deutsch geeignet!</li>
+</ul>
+<p>Version 2.2.3<br>
+  2019-05-25<br>
+  webchills
+<ul>
+  <li>Infoseite zur möglichen Blockade des Amazon Widgets in neuen Firefox Versionen integriert</li>
+  <li>Prominentere Plazierung des Amazon Buttons mit Infotext auf der Loginseite</li>
+  <li>Durchgehende Übergabe von 2 Nachkommastellen bei der Bestellsumme zur Vorbereitung auf SCA Compliance</li>
+</ul>
+<p>Version 2.2.2<br>
+  2018-07-31<br>
+  webchills
+<ul>
+  <li>Anpassungen für 1.5.5f deutsch</li>
+  <li>Bei Amazon Rückmeldung transaction timed out wird keine Bestellung mehr ausgelöst</li>
+</ul>
+<p>Version 2.2.1<br>
+  2018-04-04<br>
+  webchills
+<ul>
+  <li>Unnötige Anzeige des Modulnamens auf der checkout_frites_confirmation Seite entfernt</li>
+  <li>Eingabe von Aktionskupons sichtbar geschaltet</li>
+  <li>Fix für abgebrochene Bestellungen aufgrund von Zeilenumbrüchen in Bestellkommentaren  </li>
+  <li>Anleitung aktualisiert</li>
+</ul>
+<p>Version 2.2.0<br>
+  2018-03-21<br>
+  webchills
+<ul>
+  <li>Korrekte Übernahme von Firmennamen in Lieferadressen</li>
+  <li>Einschränkungsmöglichkeit auf Zonen entfernt</li>
+  <li>Unnötige Funktionen entfernt</li>
+  <li>Anpassungen für PHP 7.1</li>
+  <li>Unterstützte Shop Länder erweitert (Stand Ende März 2018)<br>
+  </li>
+  <li>Anleitung aktualisiert</li>
+</ul>
+<p>Version 2.1.0<br>
+  2018-01-16<br>
+  webchills
+<ul><li>Korrekte Integration der Bestätigung von AGB und Widerruf</li>
+  <li>Bugfix für Checkout Button bei versandkostenfreiem Versand</li>
+  <li>Modul bei Bestellung von virtuellen Artikeln deaktiviert<br>
+  </li>
+  <li>Nötige Änderungen bei Verwendung der Module Bestellen ohne Kundenkonto oder Datenweitergabe an Versandunternehmen hinzugefügt </li>
+  <li>Anleitung aktualisiert</li>
+</ul>
+<p>Version 2.0.0<br/>
+2017-11-16<br/>
+webchills (<a href="https://www.webchills.at" target="_blank">www.webchills.at</a>) <br/>
+  <br/>
+  Änderungen/Fehlerbehebungen gegenüber der Original Version 1.0:
+<ul><li>
+Unterstützung der in Zen Cart 1.5.5 verwendeten mehrsprachigen Ländernamen</li>
+<li>Anpassung der Dateien an die deutsche Zen Cart Version 1.5.5</li>
+<li>Kundenkommentare in der Bestellung werden übernommen</li>
+<li>Firmennamen aus dem Amazon Adressbuch werden korrekt übernommen</li>
+<li>Um zu verhindern, dass Kunden nach abgebrochener Amazon Zahlung mit unvollständigen Kundendaten mit einer anderen Zahlungsart zur Kasse gehen, werden Kunden mit fehlenden Stammdaten zuerst zur Accountseite geleitet, um ihre Daten zu aktualisieren</li>
+<li>Entfernen des von Amazon hinterlegten Bundeslandes nach erfolgreicher Amazonzahlung um Schwierigkeiten mit PayPal bei künftigen Bestellungen zu verhindern</li>
+<li>Konfigurationsoptionen auf deutsch hinterlegt</li>
+<li>Anleitung aktualisiert</li></ul>
+Portions Copyright (c) 2003 osCommerce<br>
+  Portions Copyright     (c) 2003-2019 Zen Cart
+
+  <p>This contribution is subject to version 3.0 of the GPL license available through the world-wide-web at the following url:<br>
+  <a href="http://www.zen-cart-pro.at/license/2_0.txt">http://www.zen-cart-pro.at/license/3_0.txt</a></p>
+</div>
+</div>
+</div>
+<!--End sc1-->
+
+<!--Begin sc2-->
+<div class="tabcontent" id="sc2" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+
+<h2>Installation</h2>
+<h3>Voraussetzungen</h3>
+  <br>
+  <p>Dieses Modul ist<strong> nur für Zen Cart 1.5.6 deutsch geeignet</strong><br>
+  <br>
+    Für den Einbau dieses Moduls sollten Sie über folgende Werkzeuge verfügen:<br>
+  <br>
+    1) Ein guter Texteditor. <br>
+    Damit ist nicht das in Windows enthaltene Notepad oder Microsoft Word gemeint.<br>
+    Sie benötigen einen Texteditor, der utf-8 versteht und auch im Format utf-8 ohne BOM abspeichern kann.<br>
+    Meine Empfehlung: <a href="http://www.ultraedit.com/loc/de/index_de.html" target="_blank">UltraEdit</a> (kostenlose 30 Tage Testversion verfügbar)<br>
+    Ebenfalls gut geeignet ist der kostenlose Texteditor <a href="http://notepad-plus.sourceforge.net/de/site.htm" target="_blank">Notepad++ </a><br>
+  </p>
+  <p>2) Ein Tool zum Vergleichen von Dateien<br>
+    Bei der Installation dieses Moduls ist es erforderlich, dass Sie den   Inhalt einiger Ihrer bestehenden Zen Cart Dateien mit dem Inhalt der   neuen Moduldateien vergleichen und die Änderungen zusammenführen   ("mergen").<br>
+    Meine Empfehlung: <a href="http://www.scootersoftware.com/" target="_blank">BeyondCompare</a> (kostenlose 30 Tage Testversion verfügbar)<br>
+    Ebenfalls gut geeignet ist das kostenlose Programm <a href="http://winmerge.org/" target="_blank">WinMerge </a></p>
+  <p><br>
+  <strong>Empfehlung:</strong><br>
+  <br>
+  Dieses Modul erst in einem Testsystem einbauen und dort   konfigurieren/testen und endgültig an die eigenen Wünsche anpassen.        Erst dann in einem Liveshop einsetzen! Sichern Sie unbedingt alle   Dateien Ihres Shops per FTP und sichern Sie die Datenbank mit phpMyAdmin   oder anderen geeigneten Tools!</p>
+<div id="warning"><b>WICHTIG</b><br>
+Vor dem Einbau dieser Änderungen:<br>
+BACKUP von Shop und Datenbank machen! <br>
+Keine Haftung, Verwendung auf eigene Gefahr!<br>
+BACKUP gemacht? Ok, dann weiterlesen...
+</div>
+<p>Die Installation erfolgt in folgenden Schritten. Halten Sie diesen Ablauf ein!<br>
+  <br>
+  <strong>Bevor Sie das Modul einbauen, stellen Sie Folgendes sicher:</strong><br>
+  <br>
+  1)<br>
+Sie haben einen Amazon Seller Account und Ihr Firmensitz ist Deutschland, Frankreich, Italien, Großbritannien oder Spanien:<br>
+  <a href="https://sellercentral.amazon.de" target="_blank">https://sellercentral.amazon.de</a></p>
+<p>2) <br>
+  Sie haben sich für Amazon Pay registriert:<br>
+  <a href="https://pay.amazon.com/de/signup" target="_blank">https://pay.amazon.com/de/signup</a></p>
+<p>3)<br>
+  Sie haben die im beiligenden pdf <a href="Wie-bekomme-und-nutze-ich-meine-Login-mit-AmazonClient-ID.pdf">Wie-bekomme-und-nutze-ich-meine-Login-mit-AmazonClient-ID.pdf</a> beschriebenen Schritte durchgeführt und eine Login mit Amazon ID und die entsprechenden Kennungen erstellt. <br>
+  <br>
+  4)<br>
+  Optional aber dringend empfohlen:
+  <br>
+  Sie haben in Ihrem Amazon Seller Account einen Sandbox User angelegt:<br>
+  <a href="https://pay.amazon.com/de/developer/documentation/lpwa/201956330" target="_blank">https://pay.amazon.com/de/developer/documentation/lpwa/201956330</a><br>
+  <br>
+  5)<br/>
+  Falls Sie bereits eine ältere Version dieses Moduls im Shop aktiv haben, deinstallieren Sie die alte Version vorher komplett und entfernen Sie unter Module Zahlungsarten zunächst das Amazon Pay Modul bevor Sie die neue Version 2.2.4 hochladen!<br/><br/>
+  <strong>Alles vorhanden und eingerichtet?<br>
+  Dann in folgenden Schritten das Modul installieren:
+  </strong></p>
+<p><br>
+  1) <br>
+Im Ordner NEUE DATEIEN den Ordner namens DEINTEMPLATE auf das im Shop   verwendete Template umbennen (z.B. viennaorange, responsive_classic, ...). Den   Ordner DEINADMIN auf den Namen Ihres admin Verzeichnisses   umbenennen.<br>
+<br>
+2)<br>
+Überprüfen Sie nun erst nochmal ob Sie wirklich in Schritt 1 die Ordner in NEUE DATEIEN entsprechend umbenannt haben.<br>
+Ja?<br>
+Dann nun alle Dateien/Ordner aus dem Ordner NEUE DATEIEN in der vorgegebenen Struktur in die Zen Cart Installation hochladen. <br>
+  Dabei werden keine bestehende Dateien überschrieben.<br>
+  Geben Sie nun folgendem Ordner Schreibrechte (chmod777):<br>
+  includes/modules/payment/frites/logs
+</p>
+<p>3)<br>
+Im Ordner GEAENDERTE DATEIEN alle Ordner namens DEINTEMPLATE auf das   im Shop verwendete Template umbennen (z.B. viennaorange, responsive_classic, ...).   Den Ordner DEINADMIN auf den Namen Ihres admin Verzeichnisses   umbenennen.<br>
+Wenn Sie Zen Cart 1.5.6 gerade frisch installiert haben und noch   keinerlei Änderungen an den Dateien vorgenommen haben, können Sie nun  alle Dateien/Ordner aus dem Ordner GEAENDERTE DATEIEN in der   vorgegebenen Struktur in die Zen Cart Installation hochladen. Dabei   werden dann bestehende Dateien überschrieben.<br>
+Wenn Sie Zen Cart 1.5.6 schon länger im Einsatz haben und schon einmal   Änderungen an Dateien vorgenommen oder andere Module eingebaut haben,   dann laden Sie die Dateien keinesfalls einfach hoch. <br>
+Vergleichen Sie stattdessen alle Dateien im Ordner GEAENDERTE DATEIEN mit den   entsprechenden Dateien in Ihrem Shop und nehmen Sie die Änderungen   manuell per WinMerge oder BeyondCompare vor.<br>
+Dann spielen Sie die geänderten Dateien in der gezeigten Struktur ein.</p>
+<p>4) <b>OPTIONAL: Nur nötig wenn Sie das Modul Bestellen ohne Kundenkonto verwenden:</b><br/>
+  Falls Sie im Shop zusätzlich das Modul Bestellen ohne Kundenkonto (COWOA) verwenden, dann ändern Sie noch unbedingt folgende Dateien in Ihrem Shop ab:<br>
+  includes/modules/pages/account_edit/header_php.php<br>
+  includes/modules/pages/checkout_frites_login/header_php.php<br>
+  Entsprechende Beispieldateien sind im Ordner OPTIONAL/BESTELLEN OHNE KUNDENKONTO
+  <p>5) <b>OPTIONAL: Nur nötig wenn Sie das Modul Datenweitergabe an Versandunternehmen verwenden:</b><br/>
+Falls Sie im Shop zusätzlich das Modul Datenweitergabe an Versandunternehmen verwenden, dann ändern Sie noch unbedingt weitere Dateien in Ihrem Shop ab.<br>
+ Entsprechende Beispieldateien sind im Ordner OPTIONAL/DATENWEITERGABE AN VERSANDUNTERNEHMEN
+  <p>6)<br>
+In die Zen Cart Administration einloggen</p>
+  <p>7)<br>
+    Stellen Sie unter Konfiguration &gt; Layouteinstellungen Anmeldeseite geteilt anzeigen auf True
+    <br>
+    <br>
+    8)<br>
+    In der Zen Cart Administration unter Module &gt; Zahlungsarten das neue Modul Bezahlen mit Amazon (frites) installieren. <br>
+    Unter Konfiguration weiterlesen für Hilfe zu den anzugebenden Einstellungen.</p>
+
+  </div>
+</div>
+</div>
+
+<!--End sc2-->
+
+<!--Begin sc3-->
+<div class="tabcontent" id="sc3" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+
+<h2>KONFIGURATION</h2>
+<p>Bezahlen mit Amazon-Modul aktivieren<br/>
+True oder False<br/>
+Stellen Sie zunächst auf False, erst aktivieren wenn Sie alles eingerichtet haben
+<br/><br/>
+Standard Bestellstatus = Status auf den eine Amazonbestellung zuallererst gesetzt wird<br/>
+Beispiel:<br/>
+warten auf Zahlung [1]
+<br/><br/>
+Autorisierter Bestellstatus = Status des ersten Durchlaufs bei Amazon (AUTHORIZE)<br/>
+Beispiel:<br/>
+warten auf Zahlung [1]
+<br/><br/>
+Erfasster Bestellstatus = Zahlung bei Amazon erfolgreich abgeschlossen (CAPTURE)<br/>
+Beispiel:<br/>
+Zahlung erhalten - in Arbeit [2] <br>
+<br/>
+Erfüllter Bestellstatus = Zahlung bei Amazon erfolgreich abgeschlossen<br/>
+Beispiel:<br/>
+Zahlung erhalten - in Arbeit [2]
+<br/><br/>
+Stornierter Bestellstatus = Zahlung bei Amazon nicht erfolgreich<br/>
+Beispiel:<br/>
+Storniert [5]
+<br/><br/>
+Rückgezahlter Bestellstatus<br/>
+Beispiel:<br/>
+Storniert [5]
+<br/><br/>
+Sortierreihenfolge<br/>
+steuert die Reihenfolge der angebotenen Zahlungsmodule<br/>
+Niedrige Werte werden zuoberst angezeigt
+<br>
+<br>
+Die folgenden Werte finden Sie in Ihrem Amazon Pay Account im Menü
+Integration &gt; MWS Access Key:</p>
+<p><img src="images/anmeldedaten.jpg" width="980" height="384"  alt=""/><br/>
+  <br/>
+  Händler-ID<br/>
+  Ihre Amazon Händler ID<br/>
+  sieht z.B. so aus<br/>
+  A5O7ABCD9ABC12
+  <br/><br/>
+  Client-ID<br/>
+  sieht z.B. so aus<br/>
+  amzn7.application-oa7-client.12a123456ab123456abcdefg
+  <br/><br/>
+  MWS Access Key-ID<br/>
+  sieht z.B. so aus<br/>
+  ABCDEFG1AB2BBYABCDEF
+  <br/><br/>
+  MWS Secret Access Key (nicht verwechseln mit dem Client Secret, dieses wird NICHT benötigt)<br/>
+  sieht z.B. so aus<br/>
+  Fvp+iN+ih/FBePqOOFZm0zVNT1iMJqLmlwBC2XhR
+  <br/><br/>
+  Zahlungsregion<br/>
+  Euro Region<br/>
+  außer Ihr Shop befindet sich in Großbritannien
+  <br/><br/>
+  Standarprache auswählen<br/>
+  auf DE lassen<br/><br/>
+  Live oder Sandbox<br/>
+  sandbox<br/>
+  Verwenden Sie zunächst unbedingt die Sandbox Umgebung, damit Sie in Ihrem Testshop Amazon Zahlungen ohne echte Transaktionen testen können, um sich mit der Funktionsweise vertraut zu machen
+  <br/><br/>
+  Debugging-Modus<br/>
+  Log File nur zum Testen aktivieren, es werden dann Logs in den Ordner includes/modules/payment/frites/logs geschrieben. Dieser Ordner benötigt Schreibrechte (chmod777)
+  <br>
+  Falls in Ihrer includes/configure.php ein bestimmter genereller Ordner für Logfiles angegeben ist, dann wird dieser Ordner verwendet.
+  <br/><br/>
+  Größe des Kassen-Buttons<br/>
+  small<br/>
+  Einfach nach Aktivierung ausprobieren, welcher am besten zu Ihrem Shoplayout passt
+  <br/><br/>
+  Button-Stil<br/>
+  Gold<br/>
+  Einfach nach Aktivierung ausprobieren, welcher am besten zu Ihrem Shoplayout passt
+  <br/><br/>
+  Adressbuch-Breite<br/>
+  700px<br/>
+  Kann nur in Pixel nicht in Prozent sein!<br/>
+  Einfach nach Aktivierung ausprobieren, welche Breite am besten zu Ihrem Shoplayout passt
+  <br/><br/>
+  Adressbuch-Höhe<br/>
+  260px<br/>
+  Kann nur in Pixel nicht in Prozent sein!<br/>
+  Einfach nach Aktivierung ausprobieren, welche Höhe am besten zu Ihrem Shoplayout passt
+  <br/><br/>
+  Zahlungsart-Breite<br/>
+  700px<br/>
+  Kann nur in Pixel nicht in Prozent sein!<br/>
+  Einfach nach Aktivierung ausprobieren, welche Breite am besten zu Ihrem Shoplayout passt
+  <br/><br/>
+  Zahlungsart-Höhe<br/>
+  260px<br/>
+  Kann nur in Pixel nicht in Prozent sein!<br/>
+  Einfach nach Aktivierung ausprobieren, welche Höhe am besten zu Ihrem Shoplayout passt
+  <br/><br/>
+  Telefonnummer erforderlich?<br/>
+  False<br/>
+  Falls Sie in Ihrem Shop die Telefonnummer bei der Registrierung als Pflichtfeld vorsehen, stellen Sie hier auf True.<br/>
+  Wenn ein Kunde den Checkout mit Amazon startet, wird ein Kundenkonto angelegt, das zunächst keine Telefonnummer enthält.<br/>
+  Wählt der Kunde dann doch eine andere Zahlungsart, würde er ohne Telefonnummer zur Kasse gehen. Ist diese Einstellung aktiv, dann wird das verhindert, da der Kunde dann zunächst aufgefordert wird, seine Telefonnummer zu ergänzen.<br/>
+  Wenn die Telefonnummer in Ihrem Shop kein Pflichtfeld ist, stellen Sie hier auf False. 
+  <br>
+  Stellen Sie hier auch auf False, falls Sie im Shop auch PayPal Express mit Express Button verwenden. Sonst werden Kunden im PayPal Express Checkout gezwungen erst ihre Telefonnummer zu hinterlegen, was den Express Checkout unnötig verlängert. Außer natürlich die Telefonnummer ist für Sie ein absolutes Muss.
+  <br>
+  <br>
+  Aktivieren Sie nun das Modul erst im Sandbox Modus, legen Sie etwas in den Warenkorb und clicken Sie dort auf den Amazon Pay Button.<br>
+  Loggen Sie sich mit Ihrem Amazon Sandbox User ein und machen Sie eine Testbestellung.<br>
+  <br>
+  Sehen Sie sich danach die Bestellung im Admin mit Bearbeiten an. <br>
+  Es wird zunächst eine Bestellung angelegt, deren Status dann anhand der Rückmeldungen von Amazon mehrfach aktualisiert wird. Die entsprechenden Einträge sehen Sie in der Kommentarhistory.<br>
+  <br>
+  Normalerweise sind Zahlungen via Amazon erfolgreich. Es kann aber vorkommen, dass Kunden in Ihrem Amazon Account keine gültige Zahlungsart eingestellt haben oder die Zahlung von Amazon aus anderen Gründen abgelehnt wird. <br>
+  In diesem Fall werden die Daten der Bestellung nicht vollständig aktualisiert, da Adresse und Telefonnummer erst bei erfolgreicher Zahlung rückgemeldet werden.<br>
+  In der 
+  Kommentarhistory sehen Sie, dass die Zahlung abgelehnt wurde.<br>
+  Achten Sie auf abgelehnte Zahlungen und stellen Sie Ihre Bestellstati im Modul entsprechend ein, so dass Sie bereits am Bestellstatus erkennen können, dass diese Bestellung nicht bezahlt wurde.<br>
+  <br>
+  Eine Bestellung ist nur dann wirklich bezahlt, wenn die Bestellhistory so aussieht (Authorize und Capture wurden durchlaufen):</p>
+<p><img src="images/bestellung.jpg" width="787" height="322"  alt=""/></p>
+<p>Wenn Kunden, die es im Shop noch nicht gibt, mit Amazon einloggen, wird automatisch ein Kundenkonto erstellt und im Willkommensmail bekommt der Kunde ein zufällig generiertes Passwort zugesandt. Dieses Kundenkonto enthält zunächst weder Telefonnummer noch Strasse, diese Informationen werden erst nach erfolgreichem Amazon Checkout im Kundenkonto aktualisiert. Ändern solche Kunden im Checkout dann die Zahlungsart und nehmen doch nicht Amazon wird verhindert, dass sie mit solch unvollständigen Kundendaten zur Kasse gehen, sie werden in so einem Fall zunächst auf die Mein Konto Seite geleitet, um ihre Adressdaten zu aktualisieren. Die Texte, die für die Hinweise dazu erscheinen, können in includes/languages/german/extra_definitions/frites_errors.php an eigene Wünsche angepasst werden.<br>
+  <br>
+  Sollte es später einmal nötig sein, eine Amazon Zahlung zurückzuerstatten, ist das ähnlich wie bei PayPal Express direkt über die Shopadministration möglich. Beim Bearbeiten der Bestellung sind OrderReferenceId, AuthorizationId und CaptureId ersichtlich. Clicken Sie darunter auf den Button &quot;Neu laden&quot; und danach auf &quot;Rückzahlen&quot;
+  <br>
+  <br>
+  Machen Sie nun unbedingt mehrere Testbestellungen im Sandbox Modus. Probieren Sie diverse Szenarien aus (Kunde ist schon im Shop eingeloggt und nimmt dann Login mit Amazon, Kunde hat mehrere Adressen in seinem Amazon Adresssbuch, usw. usw.). Nutzen Sie den Sandbox Modus um alles gefahrlos zu testen und stellen Sie das Modul erst dann auf Livemodus, wenn alles passt.
+ 
+  
+</p>
+</div>
+</div>
+</div>
+<!--End sc3-->
+
+<!--Begin sc4-->
+<div class="tabcontent" id="sc4" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+
+<h2>DEINSTALLATION</h2>
+<p>1.<br>
+  Unter Module &gt; Zahlungsarten das Modul deinstallieren
+  <br>
+  <br>
+  2.<br>
+  Alle von diesem Modul geänderten Dateien wieder mit den Originalversionen bzw. den Dateien Ihres Backups ersetzen.</p>
+<p>3.<br>
+  Alle von diesem Modul einsgespielten neuen Dateien wieder vom Server löschen. </p>
+</div>
+</div>
+</div>
+<!--End sc4-->
+
+<!--Begin sc5-->
+<div class="tabcontent" id="sc5" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+<h2>Download &amp; Support</h2>
+<p>Download des Moduls:</p>
+<p><a href="https://www.zen-cart-pro.at/forum/vbdownloads.php?categoryid=12" target="_blank">www.zen-cart-pro.at/forum/vbdownloads.php?categoryid=12</a></p>
+
+<p>Supportforum zum Modul:</p>
+<p><a href="https://www.zen-cart-pro.at/forum/forums/80-Bezahlen-%C3%BCber-Amazon" target="_blank">www.zen-cart-pro.at/forum/forums/80-Bezahlen-%C3%BCber-Amazon</a></p>
+</div>
+</div>
+</div>
+<!--End sc5-->
+
+<!--Begin sc6-->
+<div class="tabcontent" id="sc6" style="display: block;">
+<div class="textcontent">
+<div class="regularlist">
+
+<h2>Unterstützen</h2>
+<p>Sie finden dieses Modul nützlich?</p>
+<p>Unterstützen Sie die Weiterentwicklung der deutschen Zen Cart Version.<br/>Wir freuen uns über Spenden zur Finanzierung des Servers und der vBulletin-Lizenz: </p>
+<p><a href="https://donorbox.org/spende-fur-die-weiterentwicklung-der-deutschen-zen-cart-version" target="_blank"><img src="https://www.zen-cart-pro.at/zencartpro-donation-white.png" alt="Spende für die Weiterentwicklung der deutschen Zen Cart Version" title="Spende für die Weiterentwicklung der deutschen Zen Cart Version"></a></p>
+
+<br/><br/>
+<p>Du bist Entwickler und willst helfen, die deutsche Zen Cart Version noch besser zu machen?<br>
+  Beteilige Dich auf Github:<br>
+  <a href="https://github.com/zencartpro" target="_blank"><strong>https://github.com/zencartpro</strong></a></p>
+<br/><br/>
+</div>
+</div>
+</div>
+<!--End sc6-->
+</div>
+<div id="footer">
+Ein Modul von <a href="https://www.zen-cart-pro.at" target="_blank">www.zen-cart-pro.at</a> - Die deutsche Zen Cart Version
+</div>
+</div>
+<!--end tabcontainer-->
+<script type="text/javascript">document.getElementById('sc1').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc2').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc3').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc4').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc5').style.display = 'none';</script>
+<script type="text/javascript">document.getElementById('sc6').style.display = 'none';</script>
+<script type="text/javascript">ShowTabs()</script>
+<script type="text/javascript">
+// We only show the tab links if JavaScript is available/active.
+<!--
+if (document.getElementById("slidetabsmenu") != null) {
+  document.getElementById('slidetabsmenu').style.display = "block";
+}
+//-->
+</script>
+
+</body></html>

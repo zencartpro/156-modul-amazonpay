@@ -1,0 +1,15 @@
+Changelog Version 2.2.0 gegenüber Version 2.1.0
+
+2018-03-21 webchills
+
+Korrekte Übernahme von Firmennamen in Lieferadressen
+Einschränkungsmöglichkeit auf Zonen entfernt
+Unnötige Funktionen entfernt
+Anpassungen für PHP 7.1
+Unterstützte Shop Länder erweitert (Stand Ende März 2018)
+Erläuterung der Konfigurationsoptionen überarbeitet
+Anleitung aktualisiert
+
+Änderungen in fast allen Dateien
+Wenn bereits Version 2.0.0 oder 2.1.0 verwendet wird und auf 2.2.0 aktualisiert werden soll, erst das Modul unter Module Zahlungsarten komplett entfernen.
+Dann gemäß Anleitung 2.2.0 neu installieren

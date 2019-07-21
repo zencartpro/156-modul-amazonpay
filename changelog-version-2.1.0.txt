@@ -1,0 +1,25 @@
+Changelog Version 2.1.0 gegenüber Version 2.0.0
+
+---------------------------------------------------------------------------------------------------
+Neu hinzugekommen:
+---------------------------------------------------------------------------------------------------
+NEUE DATEIEN\includes\languages\english\extra_definitions\frites_messages.php
+NEUE DATEIEN\includes\languages\german\extra_definitions\frites_messages.php
+---------------------------------------------------------------------------------------------------
+
+Geändert:
+---------------------------------------------------------------------------------------------------
+
+GEAENDERTE DATEIEN\includes\modules\pages\checkout_payment\header_php.php
+GEAENDERTE DATEIEN\includes\modules\pages\checkout_shipping\header_php.php
+GEAENDERTE DATEIEN\includes\templates\DEINTEMPLATE\templates\tpl_shopping_cart_default.php
+NEUE DATEIEN\includes\modules\pages\checkout_frites_confirmation\header_php.php
+NEUE DATEIEN\includes\modules\pages\checkout_frites_confirmation\jscript_main.php
+NEUE DATEIEN\includes\modules\pages\checkout_frites_payment\header_php.php
+NEUE DATEIEN\includes\modules\pages\checkout_frites_payment\jscript_main.php
+NEUE DATEIEN\includes\modules\pages\checkout_frites_process\header_php.php
+NEUE DATEIEN\includes\modules\pages\checkout_frites_shipping\header_php.php
+NEUE DATEIEN\includes\modules\payment\frites.php
+NEUE DATEIEN\includes\templates\DEINTEMPLATE\templates\tpl_checkout_frites_confirmation_default.php
+NEUE DATEIEN\includes\templates\DEINTEMPLATE\templates\tpl_checkout_frites_payment_default.php
+NEUE DATEIEN\includes\templates\DEINTEMPLATE\templates\tpl_checkout_frites_shipping_default.php
