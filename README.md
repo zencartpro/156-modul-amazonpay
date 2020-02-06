@@ -1,6 +1,10 @@
 # 156-modul-amazonpay
 Login und Bezahlen mit Amazon für Zen Cart 1.5.6 deutsch
 
+Hinweis: 
+Freigegebene getestete Versionen für den Einsatz in Livesystemen ausschließlich unter Releases herunterladen:
+https://github.com/zencartpro/156-modul-amazonpay/releases
+
 Dieses Modul ermöglicht die Zahlungsart Amazon Pay in Ihrem Zen Cart Shop.
 
 Dieses Modul setzt die Lieferung physischer Waren mit einer Versandadresse voraus. Für einen Downloadshop digitaler Artikel ist es NICHT geeignet! Es wird deaktiviert, wenn virtuelle Artikel im Warenkorb sind.
