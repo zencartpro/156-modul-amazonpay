@@ -4,10 +4,10 @@
  *
  * @package Amazon Pay for Zen Cart Deutsch (www.zen-cart-pro.at)
  * @copyright Copyright 2003-2014 Webiprog
- * @copyright Copyright 2003-2019 Zen Cart Development Team
+ * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: checkout_frites_process.php 2019-07-20 19:35:20Z webchills $
+ * @version $Id: checkout_frites_process.php 2020-05-06 09:44:20Z webchills $
  */
 if (!defined('IS_ADMIN_FLAG')) {
   die('Illegal Access');
@@ -31,10 +31,6 @@ $links = fritesLinks();
     }
   }
 
-// confirm where link came from
-if (!strstr($_SERVER['HTTP_REFERER'], FILENAME_CHECKOUT_CONFIRMATION)) {
-  //    zen_redirect(zen_href_link(FILENAME_CHECKOUT_PAYMENT,'','SSL'));
-}
 
 // BEGIN CC SLAM PREVENTION
 if (!isset($_SESSION['payment_attempt'])) $_SESSION['payment_attempt'] = 0;
@@ -64,6 +60,31 @@ $order = new order;
 if (sizeof($order->products) < 1) {
   zen_redirect(zen_href_link(FILENAME_SHOPPING_CART));
 }
+
+//Check Authorization status reason code and do not create order if it fails
+
+// InvalidPaymentMethod
+				
+if (isset($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode']) && strpos($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode'],'InvalidPaymentMethod') == true) {
+						$messageStack->add_session('checkout', $errors['AuthorizationStatus'].MODULE_PAYMENT_FRITES_TEXT_ERROR_SELECT_DIFFERENT_PAYMENT, 'error');
+						zen_redirect($links['checkout_frites_payment']);					
+				}
+
+// AmazonRejected				
+if (isset($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode']) && strpos($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode'],'AmazonRejected') == true) {
+						$messageStack->add_session('checkout', $errors['AuthorizationStatus'].MODULE_PAYMENT_FRITES_TEXT_ERROR_SELECT_DIFFERENT_PAYMENT, 'error');
+						zen_redirect($links['checkout_frites_payment']);					
+				}
+// TransactionTimedOut		
+if (isset($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode']) && strpos($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode'],'TransactionTimedOut') == true) {
+						$messageStack->add_session('checkout', $errors['AuthorizationStatus'].MODULE_PAYMENT_FRITES_TEXT_ERROR_SELECT_DIFFERENT_PAYMENT, 'error');
+						zen_redirect($links['checkout_frites_payment']);					
+				}
+// ProcessingFailure
+if (isset($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode']) && strpos($_SESSION['amazon_pay_errors']['AuthorizationStatus']['ReasonCode'],'ProcessingFailure') == true) {
+						$messageStack->add_session('checkout', $errors['AuthorizationStatus'].MODULE_PAYMENT_FRITES_TEXT_ERROR_SELECT_DIFFERENT_PAYMENT, 'error');
+						zen_redirect($links['checkout_frites_payment']);					
+				}
 
 require DIR_WS_CLASSES . 'order_total.php';
 $order_total_modules = new order_total;

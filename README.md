@@ -9,8 +9,6 @@ Dieses Modul ermöglicht die Zahlungsart Amazon Pay in Ihrem Zen Cart Shop.
 
 Dieses Modul setzt die Lieferung physischer Waren mit einer Versandadresse voraus. Für einen Downloadshop digitaler Artikel ist es NICHT geeignet! Es wird deaktiviert, wenn virtuelle Artikel im Warenkorb sind.
 
-Dieses Modul ist noch nicht für die ab 14. September 2019 zwingende Strong Customer Authentication (SCA) ausgelegt. Eine neue Version, die das unterstützt, wird rechtzeitig vor Einführung der SCA erscheinen.
-
 Kunden können direkt mit ihrem Amazon Account zahlen und alle dort hinterlegten Zahlungsarten zu verwenden.
 Wählt der Kunde Bezahlen via Amazon kann er sich mit seinem Amazon Konto (Amazon Emailadresse und Amazon Passwort) einloggen, im Shop wird dann ein enstprechendes Kundenkonto automatisch angelegt, falls die Emailadresse noch nicht vorhanden ist.
 Sollte die Emailadresse bereits vorhanden sein, wird das bestehende Kundenkonto verknüpft.

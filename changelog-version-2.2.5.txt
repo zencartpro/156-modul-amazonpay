@@ -1,0 +1,10 @@
+Changelog Version 2.2.5 gegenüber Version 2.2.4
+
+2020-05-06 webchills
+
+- fehlenden logs Ordner ergänzt
+- Abfangen des Check Authorization status reason codes in includes/modules/checkout_frites_process.php um Anlegen von Bestellungen ohne erfolgreiche Zahlung besser zu verhindern
+
+Um von 2.2.4 auf 2.2.5 zu aktualisieren:
+- leeren Ordner includes/modules/payment/frites/logs anlegen falls nicht vorhanden
+- includes/modules/checkout_frites_process.php mit der neuen Datei aus dem 2.2.5 Download ersetzen
