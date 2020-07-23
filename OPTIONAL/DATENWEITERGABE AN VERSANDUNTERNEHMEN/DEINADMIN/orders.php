@@ -2,10 +2,10 @@
 /**
  * Zen Cart German Specific
  * @package admin
- * @copyright Copyright 2003-2019 Zen Cart Development Team
+ * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: orders.php for Amazon Pay und Datenweitergabe an Versandunternehmen 2019-07-21 08:13:51Z webchills $
+ * @version $Id: orders.php for Amazon Pay und Datenweitergabe an Versandunternehmen 2020-07-23 16:13:51Z webchills $
  */
 
 require('includes/application_top.php');
@@ -59,13 +59,13 @@ if ($action == 'edit' && !isset($_GET['oID'])) {
   $action = '';
 }
 
-  $oID = FALSE;
-  if (isset($_POST['oID'])) {
-    $oID = zen_db_prepare_input(trim($_POST['oID']));
-  } elseif (isset($_GET['oID'])) {
-    $oID = zen_db_prepare_input(trim($_GET['oID']));
-  }
-  if ($oID) {
+$oID = FALSE;
+if (isset($_POST['oID'])) {
+  $oID = zen_db_prepare_input(trim($_POST['oID']));
+} elseif (isset($_GET['oID'])) {
+  $oID = zen_db_prepare_input(trim($_GET['oID']));
+}
+if ($oID) {
   $orders = $db->Execute("SELECT orders_id
                           FROM " . TABLE_ORDERS . "
                           WHERE orders_id = " . (int)$oID);
@@ -145,9 +145,9 @@ if (zen_not_null($action) && $order_exists == true) {
         $db->Execute($update_downloads_query);
         unset($_GET['download_reset_off']);
 
-          $messageStack->add_session(SUCCESS_ORDER_UPDATED_DOWNLOAD_OFF, 'success');
-          zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
-        }
+        $messageStack->add_session(SUCCESS_ORDER_UPDATED_DOWNLOAD_OFF, 'success');
+        zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
+      }
       break;
     case 'update_order':
       $oID = zen_db_prepare_input($_GET['oID']);
@@ -164,19 +164,22 @@ if (zen_not_null($action) && $order_exists == true) {
       $order_updated = false;
       $status_updated = zen_update_orders_history($oID, $comments, null, $status, $customer_notified, $email_include_message);
       $order_updated = ($status_updated > 0);
+      $check_status = $db->Execute("SELECT customers_name, customers_email_address, orders_status, date_purchased
+                                    FROM " . TABLE_ORDERS . "
+                                    WHERE orders_id = " . (int)$oID);
 
       // trigger any appropriate updates which should be sent back to the payment gateway:
-        $order = new order((int)$oID);
-        if ($order->info['payment_module_code']) {
-          if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
-            require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
-            require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
-            $module = new $order->info['payment_module_code'];
-            if (method_exists($module, '_doStatusUpdate')) {
-              $response = $module->_doStatusUpdate($oID, $status, $comments, $customer_notified, $check_status->fields['orders_status']);
-            }
+      $order = new order((int)$oID);
+      if ($order->info['payment_module_code']) {
+        if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
+          require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
+          require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
+          $module = new $order->info['payment_module_code'];
+          if (method_exists($module, '_doStatusUpdate')) {
+            $response = $module->_doStatusUpdate($oID, $status, $comments, $customer_notified, $check_status->fields['orders_status']);
           }
         }
+      }
 
       if ($order_updated == true) {
         if ($status == DOWNLOADS_ORDERS_STATUS_UPDATED_VALUE) {
@@ -228,10 +231,10 @@ if (zen_not_null($action) && $order_exists == true) {
     case 'deleteconfirm':
       $oID = zen_db_prepare_input($_POST['oID']);
 
-        zen_remove_order($oID, $_POST['restock']);
+      zen_remove_order($oID, $_POST['restock']);
 
-        zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('oID', 'action')), 'NONSSL'));
-        break;
+      zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('oID', 'action')), 'NONSSL'));
+      break;
     case 'delete_cvv':
       $delete_cvv = $db->Execute("UPDATE " . TABLE_ORDERS . "
                                   SET cc_cvv = '" . TEXT_DELETE_CVV_REPLACEMENT . "'
@@ -248,71 +251,71 @@ if (zen_not_null($action) && $order_exists == true) {
                                SET cc_number = '" . $new_num . "'
                                WHERE orders_id = " . (int)$_GET['oID']);
       zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
-        break;
+      break;
 
-      case 'doRefund':
-        $order = new order($oID);
-        if ($order->info['payment_module_code']) {
-          if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
-            require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
-            require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
-            $module = new $order->info['payment_module_code'];
-            if (method_exists($module, '_doRefund')) {
-              $module->_doRefund($oID);
-            }
+    case 'doRefund':
+      $order = new order($oID);
+      if ($order->info['payment_module_code']) {
+        if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
+          require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
+          require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
+          $module = new $order->info['payment_module_code'];
+          if (method_exists($module, '_doRefund')) {
+            $module->_doRefund($oID);
           }
         }
-        zen_record_admin_activity('Order ' . $oID . ' refund processed. See order comments for details.', 'info');
-        zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
-        break;
-      case 'doAuth':
-        $order = new order($oID);
-        if ($order->info['payment_module_code']) {
-          if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
-            require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
-            require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
-            $module = new $order->info['payment_module_code'];
-            if (method_exists($module, '_doAuth')) {
-              $module->_doAuth($oID, $order->info['total'], $order->info['currency']);
-            }
+      }
+      zen_record_admin_activity('Order ' . $oID . ' refund processed. See order comments for details.', 'info');
+      zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
+      break;
+    case 'doAuth':
+      $order = new order($oID);
+      if ($order->info['payment_module_code']) {
+        if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
+          require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
+          require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
+          $module = new $order->info['payment_module_code'];
+          if (method_exists($module, '_doAuth')) {
+            $module->_doAuth($oID, $order->info['total'], $order->info['currency']);
           }
         }
-        zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
-        break;
-      case 'doCapture':
-        $order = new order($oID);
-        if ($order->info['payment_module_code']) {
-          if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
-            require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
-            require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
-            $module = new $order->info['payment_module_code'];
-            if (method_exists($module, '_doCapt')) {
-              $module->_doCapt($oID, 'Complete', $order->info['total'], $order->info['currency']);
-            }
+      }
+      zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
+      break;
+    case 'doCapture':
+      $order = new order($oID);
+      if ($order->info['payment_module_code']) {
+        if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
+          require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
+          require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
+          $module = new $order->info['payment_module_code'];
+          if (method_exists($module, '_doCapt')) {
+            $module->_doCapt($oID, 'Complete', $order->info['total'], $order->info['currency']);
           }
         }
-        zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
-        break;
-      case 'doVoid':
-        $order = new order($oID);
-        if ($order->info['payment_module_code']) {
-          if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
-            require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
-            require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
-            $module = new $order->info['payment_module_code'];
-            if (method_exists($module, '_doVoid')) {
-              $module->_doVoid($oID);
-            }
+      }
+      zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
+      break;
+    case 'doVoid':
+      $order = new order($oID);
+      if ($order->info['payment_module_code']) {
+        if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
+          require_once(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
+          require_once(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
+          $module = new $order->info['payment_module_code'];
+          if (method_exists($module, '_doVoid')) {
+            $module->_doVoid($oID);
           }
         }
-        zen_record_admin_activity('Order ' . $oID . ' void processed. See order comments for details.', 'info');
-        zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
-        break;
+      }
+      zen_record_admin_activity('Order ' . $oID . ' void processed. See order comments for details.', 'info');
+      zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('action')) . 'action=edit', 'NONSSL'));
+      break;
       default:
         $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_DEFAULT_ACTION', $oID, $order);
         break;
   }
-  }
+}
 ?>
 <!doctype html>
 <html <?php echo HTML_PARAMS; ?>>
@@ -341,18 +344,17 @@ if (zen_not_null($action) && $order_exists == true) {
           window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menu bar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=450,height=280,screenX=150,screenY=150,top=150,left=150')
       }
     </script>
-</head>
-<body onLoad="init()">
-<!-- header //-->
-<?php
-  require(DIR_WS_INCLUDES . 'header.php');
-?>
-<!-- header_eof //-->
-
+  </head>
+  <body onLoad = "init()">
+    <!-- header //-->
+    <?php
+    require(DIR_WS_INCLUDES . 'header.php');
+    ?>
+    <!-- header_eof //-->
     <!-- body //-->
     <div class="container-fluid">
       <!-- body_text //-->
-      <h1><?php echo ($action == 'edit' && $order_exists) ? HEADING_TITLE_DETAILS : HEADING_TITLE; ?></h1>
+      <h1><?php echo ($action == 'edit' && $order_exists) ? sprintf(HEADING_TITLE_DETAILS, (int)$oID) : HEADING_TITLE; ?></h1>
 
       <?php $order_list_button = '<a role="button" class="btn btn-default" href="' . zen_href_link(FILENAME_ORDERS) . '"><i class="fa fa-th-list" aria-hidden="true">&nbsp;</i> ' . BUTTON_TO_LIST . '</a>'; ?>
       <?php if ($action == '') { ?>
@@ -422,16 +424,16 @@ if (zen_not_null($action) && $order_exists == true) {
 
       <?php
       if ($action == 'edit' && $order_exists) {
-    $order = new order($oID);
-    $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_EDIT_BEGIN', $oID, $order);
-    if ($order->info['payment_module_code']) {
-      if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
-        require(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
-        require(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
-        $module = new $order->info['payment_module_code'];
+        $order = new order($oID);
+        $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_EDIT_BEGIN', $oID, $order);
+        if ($order->info['payment_module_code']) {
+          if (file_exists(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php')) {
+            require(DIR_FS_CATALOG_MODULES . 'payment/' . $order->info['payment_module_code'] . '.php');
+            require(DIR_FS_CATALOG_LANGUAGES . $_SESSION['language'] . '/modules/payment/' . $order->info['payment_module_code'] . '.php');
+            $module = new $order->info['payment_module_code'];
 //        echo $module->admin_notification($oID);
-      }
-    }
+          }
+        }
 
         $prev_button = '';
         $result = $db->Execute("SELECT orders_id
@@ -538,47 +540,47 @@ if (zen_not_null($action) && $order_exists == true) {
           <table>
             <tr>
               <td class="main"><strong><?php echo ENTRY_DATE_PURCHASED; ?></strong></td>
-           <td class="main"><?php echo zen_date_long($order->info['date_purchased']); ?></td>
-        </tr>
-        <tr>
-           <td class="main"><strong><?php echo ENTRY_PAYMENT_METHOD; ?></strong></td>
-           <td class="main"><?php echo $order->info['payment_method']; ?></td>
+              <td class="main"><?php echo zen_date_long($order->info['date_purchased']); ?></td>
+            </tr>
+            <tr>
+              <td class="main"><strong><?php echo ENTRY_PAYMENT_METHOD; ?></strong></td>
+              <td class="main"><?php echo $order->info['payment_method']; ?></td>
         </tr>
 	 <tr>
            <td class="main"><strong>Device: </strong></td>
            <td class="main"><?php echo $order->info['order_device']; ?></td>
-        </tr>
-<?php
-    if (zen_not_null($order->info['cc_type']) || zen_not_null($order->info['cc_owner']) || zen_not_null($order->info['cc_number'])) {
-?>
-          <tr>
-            <td colspan="2"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_TYPE; ?></td>
-            <td class="main"><?php echo $order->info['cc_type']; ?></td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_OWNER; ?></td>
-            <td class="main"><?php echo $order->info['cc_owner']; ?></td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_NUMBER; ?></td>
-            <td class="main"><?php echo $order->info['cc_number'] . (zen_not_null($order->info['cc_number']) && !strstr($order->info['cc_number'],'X') && !strstr($order->info['cc_number'],'********') ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=mask_cc&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_MASK_CC_NUMBER . '</a>' : ''); ?></td>
-          </tr>
-<?php if (zen_not_null($order->info['cc_cvv'])) { ?>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_CVV; ?></td>
-            <td class="main"><?php echo $order->info['cc_cvv'] . (zen_not_null($order->info['cc_cvv']) && !strstr($order->info['cc_cvv'],TEXT_DELETE_CVV_REPLACEMENT) ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=delete_cvv&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_DELETE_CVV_FROM_DATABASE . '</a>' : ''); ?></td>
-          </tr>
-<?php } ?>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_EXPIRES; ?></td>
-            <td class="main"><?php echo $order->info['cc_expires']; ?></td>
-          </tr>
-<?php
-    }
-?>
+            </tr>
+            <?php
+            if (zen_not_null($order->info['cc_type']) || zen_not_null($order->info['cc_owner']) || zen_not_null($order->info['cc_number'])) {
+              ?>
+              <tr>
+                <td colspan="2"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+              </tr>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_TYPE; ?></td>
+                <td class="main"><?php echo $order->info['cc_type']; ?></td>
+              </tr>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_OWNER; ?></td>
+                <td class="main"><?php echo $order->info['cc_owner']; ?></td>
+              </tr>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_NUMBER; ?></td>
+                <td class="main"><?php echo $order->info['cc_number'] . (zen_not_null($order->info['cc_number']) && !strstr($order->info['cc_number'], 'X') && !strstr($order->info['cc_number'], '********') ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=mask_cc&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_MASK_CC_NUMBER . '</a>' : ''); ?></td>
+              </tr>
+              <?php if (zen_not_null($order->info['cc_cvv'])) { ?>
+                <tr>
+                  <td class="main"><?php echo ENTRY_CREDIT_CARD_CVV; ?></td>
+                  <td class="main"><?php echo $order->info['cc_cvv'] . (zen_not_null($order->info['cc_cvv']) && !strstr($order->info['cc_cvv'], TEXT_DELETE_CVV_REPLACEMENT) ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=delete_cvv&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_DELETE_CVV_FROM_DATABASE . '</a>' : ''); ?></td>
+                </tr>
+              <?php } ?>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_EXPIRES; ?></td>
+                <td class="main"><?php echo $order->info['cc_expires']; ?></td>
+              </tr>
+              <?php
+            }
+            ?>
           </table>
           <?php $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_PAYMENTDATA_COLUMN2', $oID, $order); ?>
         </div>
@@ -813,34 +815,34 @@ if (zen_not_null($action) && $order_exists == true) {
             <table class="table table-hover">
               <thead>
                 <tr class="dataTableHeadingRow">
-<?php
+                    <?php
 // Sort Listing
-          switch ($_GET['list_order']) {
-              case "id-asc":
-              $disp_order = "c.customers_id";
-              break;
-              case "firstname":
-              $disp_order = "c.customers_firstname";
-              break;
-              case "firstname-desc":
-              $disp_order = "c.customers_firstname DESC";
-              break;
-              case "lastname":
-              $disp_order = "c.customers_lastname, c.customers_firstname";
-              break;
-              case "lastname-desc":
-              $disp_order = "c.customers_lastname DESC, c.customers_firstname";
-              break;
-              case "company":
-              $disp_order = "a.entry_company";
-              break;
-              case "company-desc":
-              $disp_order = "a.entry_company DESC";
-              break;
-              default:
-              $disp_order = "c.customers_id DESC";
-          }
-?>
+                    switch ($_GET['list_order']) {
+                      case "id-asc":
+                        $disp_order = "c.customers_id";
+                        break;
+                      case "firstname":
+                        $disp_order = "c.customers_firstname";
+                        break;
+                      case "firstname-desc":
+                        $disp_order = "c.customers_firstname DESC";
+                        break;
+                      case "lastname":
+                        $disp_order = "c.customers_lastname, c.customers_firstname";
+                        break;
+                      case "lastname-desc":
+                        $disp_order = "c.customers_lastname DESC, c.customers_firstname";
+                        break;
+                      case "company":
+                        $disp_order = "a.entry_company";
+                        break;
+                      case "company-desc":
+                        $disp_order = "a.entry_company DESC";
+                        break;
+                      default:
+                        $disp_order = "c.customers_id DESC";
+                    }
+                    ?>
                   <td class="dataTableHeadingContent text-center"><?php echo TABLE_HEADING_ORDERS_ID; ?></td>
                   <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_PAYMENT_METHOD; ?></td>
                   <td class="dataTableHeadingContent"><?php echo TABLE_HEADING_CUSTOMERS; ?></td>
@@ -875,6 +877,7 @@ if (zen_not_null($action) && $order_exists == true) {
       }
   }
 ?>
+                  
                   <td class="dataTableHeadingContent noprint text-right"><?php echo TABLE_HEADING_ACTION; ?></td>
                 </tr>
               </thead>
@@ -1059,12 +1062,12 @@ if (zen_not_null($action) && $order_exists == true) {
             </table>
           </div>
           <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 configurationColumnRight">
-<?php
-  $heading = array();
-  $contents = array();
+              <?php
+              $heading = array();
+              $contents = array();
 
-  switch ($action) {
-    case 'delete':
+              switch ($action) {
+                case 'delete':
                   $heading[] = array('text' => '<h4>' . TEXT_INFO_HEADING_DELETE_ORDER . '</h4>');
 
                   $contents = array('form' => zen_draw_form('orders', FILENAME_ORDERS, zen_get_all_get_params(array('oID', 'action')) . '&action=deleteconfirm', 'post', 'class="form-horizontal"', true) . zen_draw_hidden_field('oID', $oInfo->orders_id));
@@ -1111,6 +1114,7 @@ if (zen_not_null($action) && $order_exists == true) {
 
                     if ($orders_history_query->RecordCount() > 0) {
                       $contents[] = array('text' => '<br>' . TABLE_HEADING_COMMENTS);
+                      $contents[] = array('text' => nl2br(zen_output_string_protected($orders_history_query->fields['comments'])));
                     }
 
                     $contents[] = array('text' => '<br>' . zen_image(DIR_WS_IMAGES . 'pixel_black.gif', '', '', '3', 'style="width:100%"'));

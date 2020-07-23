@@ -71,6 +71,15 @@
 Übersetzung/Anpassung/Überarbeitung des Moduls Amazon Pay 1.0 von webiprog für die deutsche Zen Cart Version 1.5.6<br/>
  Copyright Originalmodul 2014-2017:<br>
 <a href="http://www.webiprog.de" target="_blank">www.webiprog.de</a>
+<br>
+<br>
+Version 2.2.6<br>
+2020-07-23<br>
+webchills
+<ul>
+  <li>Codeänderungen aus 1.5.6e integriert</li>
+  <li>Beispieldateien für responsive_classic Template integriert</li>
+</ul>
 <p>Version 2.2.5<br>
 2020-05-06<br>
 webchills
@@ -192,6 +201,10 @@ BACKUP gemacht? Ok, dann weiterlesen...
   <br>
   <strong>Bevor Sie das Modul einbauen, stellen Sie Folgendes sicher:</strong><br>
   <br>
+  <strong> Dieses Modul ist auf dem Stand von Zen Cart 1.5.6e! <br>
+  Bevor Sie Ihren Zen Cart Shop weiter modifizieren, stellen Sie erst sicher, dass Sie bereits 1.5.6e verwenden.<br>
+Sollten Sie noch1.5.6d oder 1.5.6c verwenden, dann führen Sie erst ein Update auf die aktuelle deutsche Zen Cart Version durch!</strong><br>
+  <br/>
   1)<br>
 Sie haben einen Amazon Seller Account und Ihr Firmensitz ist Deutschland, Frankreich, Italien, Großbritannien oder Spanien:<br>
   <a href="https://sellercentral.amazon.de" target="_blank">https://sellercentral.amazon.de</a></p>
@@ -208,7 +221,7 @@ Sie haben einen Amazon Seller Account und Ihr Firmensitz ist Deutschland, Frankr
   <a href="https://pay.amazon.com/de/developer/documentation/lpwa/201956330" target="_blank">https://pay.amazon.com/de/developer/documentation/lpwa/201956330</a><br>
   <br>
   5)<br/>
-  Falls Sie bereits eine ältere Version dieses Moduls im Shop aktiv haben, deinstallieren Sie die alte Version vorher komplett und entfernen Sie unter Module Zahlungsarten zunächst das Amazon Pay Modul bevor Sie die neue Version 2.2.4 hochladen!<br/><br/>
+  Falls Sie bereits eine ältere Version dieses Moduls im Shop aktiv haben, deinstallieren Sie die alte Version vorher komplett und entfernen Sie unter Module Zahlungsarten zunächst das Amazon Pay Modul bevor Sie die neue Version 2.2.6 hochladen!<br/><br/>
   <strong>Alles vorhanden und eingerichtet?<br>
   Dann in folgenden Schritten das Modul installieren:
   </strong></p>
@@ -225,7 +238,8 @@ Dann nun alle Dateien/Ordner aus dem Ordner NEUE DATEIEN in der vorgegebenen Str
   includes/modules/payment/frites/logs
 </p>
 <p>3)<br>
-Im Ordner GEAENDERTE DATEIEN alle Ordner namens DEINTEMPLATE auf das   im Shop verwendete Template umbennen (z.B. viennaorange, responsive_classic, ...).   Den Ordner DEINADMIN auf den Namen Ihres admin Verzeichnisses   umbenennen.<br>
+Im Ordner GEAENDERTE DATEIEN alle Ordner namens DEINTEMPLATE auf das   im Shop verwendete Template umbennen (z.B. viennaorange, ...).   <br>Sollten Sie das Template reponsive_classic verwenden, dann verwenden Sie für den Dateivergleich die Dateien im Ordner DEINTEMPLATE_RESPONSIVE und benennen den entsprechend um<br/>
+Den Ordner DEINADMIN auf den Namen Ihres admin Verzeichnisses   umbenennen.<br/>
 Wenn Sie Zen Cart 1.5.6 gerade frisch installiert haben und noch   keinerlei Änderungen an den Dateien vorgenommen haben, können Sie nun  alle Dateien/Ordner aus dem Ordner GEAENDERTE DATEIEN in der   vorgegebenen Struktur in die Zen Cart Installation hochladen. Dabei   werden dann bestehende Dateien überschrieben.<br>
 Wenn Sie Zen Cart 1.5.6 schon länger im Einsatz haben und schon einmal   Änderungen an Dateien vorgenommen oder andere Module eingebaut haben,   dann laden Sie die Dateien keinesfalls einfach hoch. <br>
 Vergleichen Sie stattdessen alle Dateien im Ordner GEAENDERTE DATEIEN mit den   entsprechenden Dateien in Ihrem Shop und nehmen Sie die Änderungen   manuell per WinMerge oder BeyondCompare vor.<br>

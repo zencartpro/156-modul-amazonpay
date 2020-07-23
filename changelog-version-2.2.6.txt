@@ -1,0 +1,12 @@
+Changelog Version 2.2.6 gegenüber Version 2.2.5
+
+2020-07-23 webchills
+
+- Beispieldateien für responsive_classic Template integriert
+- Codeänderungen aus 1.5.6e übernommen
+
+Um von 2.2.5 auf 2.2.6 zu aktualisieren:
+Sicherstellen, dass Sie wirklich bereits Zen Cart 1.5.6e verwenden, falls nicht erst auf 1.5.6e aktualisieren
+In 2.2.6 wurden folgende Dateien auf den Stand von 1.5.6e gebracht, vergleichen Sie diese beiden Dateien in Ihrer Shopinstallation mit den entsprechenden Beispieldateien in diesem Downloadpaket und nehmen Sie falls nötig die Änderungen vor
+- DEINADMIN/orders.php
+- includes/templates/DEINTEMPLATE/templates/tpl_checkout_payment_default.php

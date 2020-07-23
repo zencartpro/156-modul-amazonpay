@@ -2,10 +2,10 @@
 /**
  * Zen Cart German Specific
  * @package admin
- * @copyright Copyright 2003-2019 Zen Cart Development Team
+ * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: orders.php for Amazon Pay 2019-07-20 19:13:51Z webchills $
+ * @version $Id: orders.php for Amazon Pay 2020-07-23 15:56:51Z webchills $
  */
 
 require('includes/application_top.php');
@@ -164,6 +164,9 @@ if (zen_not_null($action) && $order_exists == true) {
       $order_updated = false;
       $status_updated = zen_update_orders_history($oID, $comments, null, $status, $customer_notified, $email_include_message);
       $order_updated = ($status_updated > 0);
+      $check_status = $db->Execute("SELECT customers_name, customers_email_address, orders_status, date_purchased
+                                    FROM " . TABLE_ORDERS . "
+                                    WHERE orders_id = " . (int)$oID);
 
       // trigger any appropriate updates which should be sent back to the payment gateway:
       $order = new order((int)$oID);
@@ -228,10 +231,10 @@ if (zen_not_null($action) && $order_exists == true) {
     case 'deleteconfirm':
       $oID = zen_db_prepare_input($_POST['oID']);
 
-        zen_remove_order($oID, $_POST['restock']);
+      zen_remove_order($oID, $_POST['restock']);
 
-        zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('oID', 'action')), 'NONSSL'));
-        break;
+      zen_redirect(zen_href_link(FILENAME_ORDERS, zen_get_all_get_params(array('oID', 'action')), 'NONSSL'));
+      break;
     case 'delete_cvv':
       $delete_cvv = $db->Execute("UPDATE " . TABLE_ORDERS . "
                                   SET cc_cvv = '" . TEXT_DELETE_CVV_REPLACEMENT . "'
@@ -338,9 +341,9 @@ if (zen_not_null($action) && $order_exists == true) {
       }
     </script>
     <script>
-function couponpopupWindow(url) {
-  window.open(url,'popupWindow','toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=450,height=280,screenX=150,screenY=150,top=150,left=150')
-}
+      function couponpopupWindow(url) {
+          window.open(url, 'popupWindow', 'toolbar=no,location=no,directories=no,status=no,menu bar=no,scrollbars=yes,resizable=yes,copyhistory=no,width=450,height=280,screenX=150,screenY=150,top=150,left=150')
+      }
     </script>
   </head>
   <body onLoad = "init()">
@@ -352,7 +355,7 @@ function couponpopupWindow(url) {
     <!-- body //-->
     <div class="container-fluid">
       <!-- body_text //-->
-      <h1><?php echo ($action == 'edit' && $order_exists) ? HEADING_TITLE_DETAILS : HEADING_TITLE; ?></h1>
+      <h1><?php echo ($action == 'edit' && $order_exists) ? sprintf(HEADING_TITLE_DETAILS, (int)$oID) : HEADING_TITLE; ?></h1>
 
       <?php $order_list_button = '<a role="button" class="btn btn-default" href="' . zen_href_link(FILENAME_ORDERS) . '"><i class="fa fa-th-list" aria-hidden="true">&nbsp;</i> ' . BUTTON_TO_LIST . '</a>'; ?>
       <?php if ($action == '') { ?>
@@ -546,35 +549,35 @@ function couponpopupWindow(url) {
             </tr>
             <?php
             if (zen_not_null($order->info['cc_type']) || zen_not_null($order->info['cc_owner']) || zen_not_null($order->info['cc_number'])) {
-?>
-          <tr>
-            <td colspan="2"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_TYPE; ?></td>
-            <td class="main"><?php echo $order->info['cc_type']; ?></td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_OWNER; ?></td>
-            <td class="main"><?php echo $order->info['cc_owner']; ?></td>
-          </tr>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_NUMBER; ?></td>
-            <td class="main"><?php echo $order->info['cc_number'] . (zen_not_null($order->info['cc_number']) && !strstr($order->info['cc_number'],'X') && !strstr($order->info['cc_number'],'********') ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=mask_cc&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_MASK_CC_NUMBER . '</a>' : ''); ?></td>
-          </tr>
-<?php if (zen_not_null($order->info['cc_cvv'])) { ?>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_CVV; ?></td>
-            <td class="main"><?php echo $order->info['cc_cvv'] . (zen_not_null($order->info['cc_cvv']) && !strstr($order->info['cc_cvv'],TEXT_DELETE_CVV_REPLACEMENT) ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=delete_cvv&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_DELETE_CVV_FROM_DATABASE . '</a>' : ''); ?></td>
-          </tr>
-<?php } ?>
-          <tr>
-            <td class="main"><?php echo ENTRY_CREDIT_CARD_EXPIRES; ?></td>
-            <td class="main"><?php echo $order->info['cc_expires']; ?></td>
-          </tr>
-<?php
-    }
-?>
+              ?>
+              <tr>
+                <td colspan="2"><?php echo zen_draw_separator('pixel_trans.gif', '1', '10'); ?></td>
+              </tr>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_TYPE; ?></td>
+                <td class="main"><?php echo $order->info['cc_type']; ?></td>
+              </tr>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_OWNER; ?></td>
+                <td class="main"><?php echo $order->info['cc_owner']; ?></td>
+              </tr>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_NUMBER; ?></td>
+                <td class="main"><?php echo $order->info['cc_number'] . (zen_not_null($order->info['cc_number']) && !strstr($order->info['cc_number'], 'X') && !strstr($order->info['cc_number'], '********') ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=mask_cc&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_MASK_CC_NUMBER . '</a>' : ''); ?></td>
+              </tr>
+              <?php if (zen_not_null($order->info['cc_cvv'])) { ?>
+                <tr>
+                  <td class="main"><?php echo ENTRY_CREDIT_CARD_CVV; ?></td>
+                  <td class="main"><?php echo $order->info['cc_cvv'] . (zen_not_null($order->info['cc_cvv']) && !strstr($order->info['cc_cvv'], TEXT_DELETE_CVV_REPLACEMENT) ? '&nbsp;&nbsp;<a href="' . zen_href_link(FILENAME_ORDERS, '&action=delete_cvv&oID=' . $oID, 'NONSSL') . '" class="noprint">' . TEXT_DELETE_CVV_FROM_DATABASE . '</a>' : ''); ?></td>
+                </tr>
+              <?php } ?>
+              <tr>
+                <td class="main"><?php echo ENTRY_CREDIT_CARD_EXPIRES; ?></td>
+                <td class="main"><?php echo $order->info['cc_expires']; ?></td>
+              </tr>
+              <?php
+            }
+            ?>
           </table>
           <?php $zco_notifier->notify('NOTIFY_ADMIN_ORDERS_PAYMENTDATA_COLUMN2', $oID, $order); ?>
         </div>
@@ -1107,6 +1110,7 @@ function couponpopupWindow(url) {
 
                     if ($orders_history_query->RecordCount() > 0) {
                       $contents[] = array('text' => '<br>' . TABLE_HEADING_COMMENTS);
+                      $contents[] = array('text' => nl2br(zen_output_string_protected($orders_history_query->fields['comments'])));
                     }
 
                     $contents[] = array('text' => '<br>' . zen_image(DIR_WS_IMAGES . 'pixel_black.gif', '', '', '3', 'style="width:100%"'));

@@ -1,5 +1,6 @@
 <?php
 /**
+ * Zen Cart German Specific
  * Page Template
  *
  * Loaded automatically by index.php?main_page=shopping_cart.<br />
@@ -11,6 +12,9 @@
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
  * @version $Id: tpl_shopping_cart_default.php for Amazon Pay 2020-07-23 16:01:16Z webchills $
  */
+?>
+<?php 
+  if (!isset($display_as_mobile)) $display_as_mobile = ($detect->isMobile() && !$detect->isTablet() || $_SESSION['layoutType'] == 'mobile' or $detect->isTablet() || $_SESSION['layoutType'] == 'tablet'); 
 ?>
 <div class="centerColumn" id="shoppingCartDefault">
 <?php
@@ -44,7 +48,6 @@ if (defined('MODULE_PAYMENT_PAYPALWPP_STATUS') && MODULE_PAYMENT_PAYPALWPP_STATU
 
 <?php if (!empty($totalsDisplay)) { ?>
   <div class="cartTotalsDisplay important"><?php echo $totalsDisplay; ?></div>
-  <br class="clearBoth" />
 <?php } ?>
 
 <?php  if ($flagAnyOutOfStock) { ?>
@@ -73,34 +76,37 @@ if (defined('MODULE_PAYMENT_PAYPALWPP_STATUS') && MODULE_PAYMENT_PAYPALWPP_STATU
   foreach ($productArray as $product) {
 ?>
      <tr class="<?php echo $product['rowClass']; ?>">
+
+<?php if ( $detect->isMobile() && !$detect->isTablet() || $_SESSION['layoutType'] == 'mobile' ) {
+      // 
+      } else { ?>
+
        <td class="cartQuantity">
 <?php
   if ($product['flagShowFixedQuantity']) {
-    echo $product['showFixedQuantityAmount'] . '<br /><span class="alert bold">' . $product['flagStockCheck'] . '</span><br /><br />' . $product['showMinUnits'];
+    echo $product['showFixedQuantityAmount'];
   } else {
-    echo $product['quantityField'] . '<br /><span class="alert bold">' . $product['flagStockCheck'] . '</span><br /><br />' . $product['showMinUnits'];
+    echo $product['quantityField'];
   }
-?>
+?><br />
+        <span class="alert bold"><?php echo $product['flagStockCheck'];?></span><br />
+        <br /><?php echo $product['showMinUnits']; ?>
        </td>
-       <td class="cartQuantityUpdate">
-<?php
-  if ($product['buttonUpdate'] == '') {
-    echo '' ;
-  } else {
-    echo $product['buttonUpdate'];
-  }
-?>
-       </td>
+
+       <td class="cartQuantityUpdate"><?php echo $product['buttonUpdate']; ?></td>
+<?php } ?>
+
+
+
        <td class="cartProductDisplay">
+
 <a href="<?php echo $product['linkProductsName']; ?>"><span class="cartImage back"><?php echo $product['productsImage']; ?></span><span class="cartProdTitle"><?php echo $product['productsName'] . '<span class="alert bold">' . $product['flagStockCheck'] . '</span>'; ?></span></a>
 <br class="clearBoth" />
-
-
 <?php
   echo $product['attributeHiddenField'];
   if (isset($product['attributes']) && is_array($product['attributes'])) {
-    echo '<div class="cartAttribsList">';
-    echo '<ul>';
+  echo '<div class="cartAttribsList">';
+  echo '<ul>';
     foreach ($product['attributes'] as $option => $value) {
 ?>
 
@@ -113,26 +119,45 @@ if (defined('MODULE_PAYMENT_PAYPALWPP_STATUS') && MODULE_PAYMENT_PAYPALWPP_STATU
   }
 ?>
        </td>
-       <td class="cartUnitDisplay"><?php echo $product['productsPriceEach']; ?></td>
-       <td class="cartTotalDisplay"><?php echo $product['productsPrice']; ?></td>
+
+<?php if ( $detect->isMobile() && !$detect->isTablet() || $_SESSION['layoutType'] == 'mobile' ) { ?>
+
+       <td class="cartQuantity">
+<?php
+  if ($product['flagShowFixedQuantity']) {
+    echo $product['showFixedQuantityAmount'] . '<br /><span class="alert bold">' . $product['flagStockCheck'] . '</span><br /><br />' . $product['showMinUnits'];
+  } else {
+    echo $product['quantityField'] . '<br /><span class="alert bold">' . $product['flagStockCheck'] . '</span><br /><br />' . $product['showMinUnits'];
+  }
+?>
+       </td>
+       <td class="cartQuantityUpdate"><?php echo $product['buttonUpdate']; ?></td>
+
+<?php  } else {
+
+  }  ?>
+
+
+       <td class="cartUnitDisplay"><?php if ($display_as_mobile) { echo '<b class="hide">' . TABLE_HEADING_PRICE . '&#58;&nbsp;&nbsp;</b>'; } ?><?php echo $product['productsPriceEach']; ?></td>
+       <td class="cartTotalDisplay"><?php if ($display_as_mobile) { echo '<b class="hide">' . TABLE_HEADING_TOTAL . '&#58;&nbsp;&nbsp;</b>'; } ?><?php echo $product['productsPrice']; ?></td>
        <td class="cartRemoveItemDisplay">
 <?php
   if ($product['buttonDelete']) {
 ?>
-           <a href="<?php echo zen_href_link(FILENAME_SHOPPING_CART, 'action=remove_product&product_id=' . $product['id']); ?>"><?php echo zen_image($template->get_template_dir(ICON_IMAGE_TRASH, DIR_WS_TEMPLATE, $current_page_base,'images/icons'). '/' . ICON_IMAGE_TRASH, ICON_TRASH_ALT); ?></a>
+         <a href="<?php echo zen_href_link(FILENAME_SHOPPING_CART, 'action=remove_product&product_id=' . $product['id']); ?>"><?php echo zen_image($template->get_template_dir(ICON_IMAGE_TRASH, DIR_WS_TEMPLATE, $current_page_base,'images/icons'). '/' . ICON_IMAGE_TRASH, ICON_TRASH_ALT); ?></a>
 <?php
   }
   if ($product['checkBoxDelete'] ) {
     echo zen_draw_checkbox_field('cart_delete[]', $product['id']);
   }
 ?>
-</td>
+      </td>
      </tr>
 <?php
   } // end foreach ($productArray as $product)
 ?>
        <!-- Finished loop through all products /-->
-      </table>
+</table>
 
 <div id="cartSubTotal"><?php echo SUB_TITLE_SUB_TOTAL; ?> <?php echo $cartShowTotal; ?></div>
 <br class="clearBoth" />

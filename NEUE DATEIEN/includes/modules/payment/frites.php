@@ -5,7 +5,7 @@
  * @copyright Copyright 2003-2020 Zen Cart Development Team
  * @copyright Portions Copyright 2003 osCommerce
  * @license https://www.zen-cart-pro.at/license/3_0.txt GNU General Public License V3.0
- * @version $Id: frites.php 2020-05-06 09:42:16Z webchills $
+ * @version $Id: frites.php 2020-07-23 16:11:16Z webchills $
  */
 
 /**
@@ -722,7 +722,7 @@ $zco_notifier->notify('NOTIFY_CHECKOUT_PROCESS_AFTER_SEND_ORDER_EMAIL');
 		}
 
 		$this->check_frites_fields();
-    $db->Execute('insert into ' . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Version', 'MODULE_PAYMENT_FRITES_MODULE_VERSION', '2.2.5', 'Version installed:', '6', 0, NOW(), NOW(), NULL, 'zen_cfg_read_only(');");
+    $db->Execute('insert into ' . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Version', 'MODULE_PAYMENT_FRITES_MODULE_VERSION', '2.2.6', 'Version installed:', '6', 0, NOW(), NOW(), NULL, 'zen_cfg_read_only(');");
 		$db->Execute('insert into ' . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, date_added) values ('".zen_db_input(MODULE_PAYMENT_FRITES_STATUS_TITLE)."', 'MODULE_PAYMENT_FRITES_STATUS', 'True', '".zen_db_input(MODULE_PAYMENT_FRITES_STATUS_DESC)."', '2', '2', 'zen_cfg_select_option(array(\'True\', \'False\'), ', now())");
 		$db->Execute("insert into " . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, last_modified, date_added, use_function, set_function) values ('Zoneneinschränkung', 'MODULE_PAYMENT_FRITES_ZONE', '0', 'nicht änderbar', '6', '1', NOW(), NOW(), NULL, 'zen_cfg_read_only(');");
 		$db->Execute('insert into ' . TABLE_CONFIGURATION . " (configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, set_function, use_function, date_added) values ('".zen_db_input(MODULE_PAYMENT_FRITES_ORDER_STATUS_ID_TITLE)."', 'MODULE_PAYMENT_FRITES_ORDER_STATUS_ID', '1', '".zen_db_input(MODULE_PAYMENT_FRITES_ORDER_STATUS_ID_DESC)."', '6', '3', 'zen_cfg_pull_down_order_statuses(', 'zen_get_order_status_name', now())");
