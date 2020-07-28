@@ -1,7 +1,7 @@
 <?php
 define('MODULE_PAYMENT_FRITES_TEXT_TITLE', 'Pay with Amazon');
 define('MODULE_PAYMENT_FRITES_TEXT_ADMIN_TITLE', 'Pay with Amazon');
-define('MODULE_PAYMENT_FRITES_TEXT_DESCRIPTION', '<br/><img src="images/amazonpaylogo.png" alt="Amazon Pay"/><br/><br/>Version 2.2.4<br/>NOT SCA compliant<br/><br/><a href="https://pay.amazon.com/uk" target="_blank">Amazon Pay Info Site</a>');
+define('MODULE_PAYMENT_FRITES_TEXT_DESCRIPTION', '<br/><img src="images/amazonpaylogo.png" alt="Amazon Pay"/><br/><br/>Version 2.2.6<br/>NOT SCA compliant<br/><br/><a href="https://pay.amazon.com/uk" target="_blank">Amazon Pay Info Site</a>');
 define('MODULE_PAYMENT_FRITES_TEXT_LOGIN', 'Amazon Login:');
 define('MODULE_PAYMENT_FRITES_TEXT_PASSWORD', 'Password:');
 
